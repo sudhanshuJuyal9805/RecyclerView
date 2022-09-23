@@ -1,7 +1,7 @@
 package com.example.recycleradapter
-
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -28,8 +28,7 @@ class MainActivity : AppCompatActivity() ,InterfaceRecyclerview{
 
         val api= ApiClient.getApiClient().create(apiHelper::class.java)
         val repository= Repository(api)
-        mainActivityViewModel = ViewModelProvider(this, MainViewModelFactory(repository)).get(
-            RecyclerViewModel::class.java)
+        mainActivityViewModel = ViewModelProvider(this, MainViewModelFactory(repository))[RecyclerViewModel::class.java]
         setCheckoutListData()
 
     }
@@ -38,6 +37,7 @@ class MainActivity : AppCompatActivity() ,InterfaceRecyclerview{
         binding.myAdapter = adapter
         binding.recycler.layoutManager = LinearLayoutManager(this)
         mainActivityViewModel.user.observe(this, Observer {
+            Log.d("TAG", "setCheckoutListData: ${it.toString()}")
 
             adapter.setCheckOutListData(it)
         })
@@ -46,6 +46,7 @@ class MainActivity : AppCompatActivity() ,InterfaceRecyclerview{
 
     override fun onItemClick(position: Int)
     {
+        mainActivityViewModel.onClickData(position)
         Toast.makeText(this,position.toString(),Toast.LENGTH_LONG).show()
 
     }
