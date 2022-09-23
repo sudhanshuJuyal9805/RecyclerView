@@ -2,6 +2,7 @@ package com.example.recycleradapter
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -14,10 +15,10 @@ import com.example.recycleradapter.repository.Repository
 import com.example.recycleradapter.viewmodel.MainViewModelFactory
 import com.example.recycleradapter.viewmodel.RecyclerViewModel
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() ,InterfaceRecyclerview{
     private lateinit var mainActivityViewModel: RecyclerViewModel
     private lateinit var binding: ActivityMainBinding
-    private var adapter = CustomAdapter()
+    private var adapter = CustomAdapter(this)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +41,12 @@ class MainActivity : AppCompatActivity() {
 
             adapter.setCheckOutListData(it)
         })
+
+    }
+
+    override fun onItemClick(position: Int)
+    {
+        Toast.makeText(this,position.toString(),Toast.LENGTH_LONG).show()
 
     }
 }
